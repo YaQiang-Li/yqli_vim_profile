@@ -1,0 +1,17 @@
+#[hi]
+#/home/yqli/5-Hi/hi
+#
+#[vim-test]
+#/home/yqli/3-test/ctags-study
+
+[TT-Login_server]
+/home/yqli/2-MI/TeamTalk/server/src/login_server
+/home/yqli/2-MI/TeamTalk/server/src/base
+/home/yqli/2-MI/TeamTalk/server/src/log4cxx
+/home/yqli/2-MI/TeamTalk/server/src/lib
+/home/yqli/2-MI/TeamTalk/server/src/tools
+
+[TT_msg_server]
+/home/yqli/2-MI/TeamTalk/server/src/msg_server
+
+
