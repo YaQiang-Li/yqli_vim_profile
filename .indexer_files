@@ -1,17 +1,8 @@
-#[hi]
-#/home/yqli/5-Hi/hi
-#
-#[vim-test]
-#/home/yqli/3-test/ctags-study
+[PROJECTS_PARENT]
+option:ctags_params="--languages=c++,c,python,java"
 
-[TT-Login_server]
-/home/yqli/2-MI/TeamTalk/server/src/login_server
-/home/yqli/2-MI/TeamTalk/server/src/base
-/home/yqli/2-MI/TeamTalk/server/src/log4cxx
-/home/yqli/2-MI/TeamTalk/server/src/lib
-/home/yqli/2-MI/TeamTalk/server/src/tools
+/*/home/liyaqiang/2-lib_project*/
 
-[TT_msg_server]
-/home/yqli/2-MI/TeamTalk/server/src/msg_server
-
+[iptables]
+/home/liyaqiang/4-free_project/iptables
 

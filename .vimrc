@@ -43,7 +43,7 @@ set nocompatible
 " vim 自身命令行模式智能补全
 set wildmenu
 
-" 将 pathogen 自身也置于独立目录中，需指定其路径 
+" 将 pathogen 自身也置于独立目录中，需指定其路径
 runtime bundle/pathogen/autoload/pathogen.vim
 " 运行 pathogen
 execute pathogen#infect()
@@ -51,9 +51,11 @@ execute pathogen#infect()
 " 配色方案
 set background=dark
 "set background=light
-colorscheme solarized
+"colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
+colorscheme Tomorrow-Night
+"colorscheme github
 
 " 禁止光标闪烁
 set gcr=a:block-blinkon0
@@ -95,16 +97,16 @@ syntax on
 " 自适应不同语言的智能缩进
 filetype indent on
 " 将制表符扩展为空格
-set expandtab
+"set expandtab
 " 设置编辑时制表符占用空格数
-set tabstop=4
+set tabstop=8
 " 设置格式化时制表符占用空格数
-set shiftwidth=4
+set shiftwidth=8
 " 让 vim 把连续数量的空格视为一个制表符
-set softtabstop=4
+"set softtabstop=4
 
 " 随 vim 自启动
-let g:indent_guides_enable_on_vim_startup=1
+let g:indent_guides_enable_on_vim_startup=0
 " 从第二层开始可视化显示缩进
 let g:indent_guides_start_level=2
 " 色块宽度
@@ -156,15 +158,21 @@ nmap <Leader>tp :tprevious<CR>
 " 默认 --c++-kinds=+p+l，重新设置为 --c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v
 " 默认 --fields=+iaS 不满足 YCM 要求，需改为 --fields=+iaSl
 let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v --fields=+iaSl --extra=+q"
+let g:indexer_disableCtagsWarning=1
 
+" 设置ctags路径
+let g:tagbar_ctags_bin = '/home/liyaqiang/bin/bin/ctags'
 " 设置 tagbar 子窗口的位置出现在主编辑区的左边 
-let tagbar_left=1
+let tagbar_left=1 
 " 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
-nnoremap <Leader>tl :TagbarToggle<CR> 
+nnoremap <Leader>tl :TagbarToggle<CR>
+autocmd VimEnter * Tagbar
 " 设置标签子窗口的宽度 
-let tagbar_width=32 
+let tagbar_width=28 
 " tagbar 子窗口中不显示冗余帮助信息 
 let g:tagbar_compact=1
+" 不排序
+let g:tagbar_sort=0
 " 设置 ctags 对哪些代码元素生成标签
 let g:tagbar_type_cpp = {
   \ 'kinds' : [
@@ -262,9 +270,9 @@ let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
 let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
 
 " 设置C++库函数智能补全
-let OmniCpp_DefaultNamespaces = ["_GLIBCXX_STD"]
-set tags+=/usr/include/c++/4.8.2/stdcpp.tags
-set tags+=/usr/include/sys.tags
+"let OmniCpp_DefaultNamespaces = ["_GLIBCXX_STD"]
+"set tags+=/usr/include/c++/4.8.2/stdcpp.tags
+"set tags+=/usr/include/sys.tags
 
 " 设置 pullproto.pl 脚本路径
 let g:protodefprotogetter='~/.vim/bundle/plugin_protodef/pullproto.pl'
@@ -275,7 +283,7 @@ let g:disable_protodef_sorting=1
 " 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
 nmap <Leader>fl :NERDTreeToggle<CR>
 " 设置NERDTree子窗口宽度
-let NERDTreeWinSize=32
+let NERDTreeWinSize=28
 " 设置NERDTree子窗口位置
 let NERDTreeWinPos="right"
 " 显示隐藏文件
@@ -284,23 +292,48 @@ let NERDTreeShowHidden=1
 let NERDTreeMinimalUI=1
 " 删除文件时自动删除文件对应 buffer
 let NERDTreeAutoDeleteBuffer=1
+" vim启动时默认打开 NERDtree
+"autocmd VimEnter * NERDTree
+" 当打开 NERDTree 窗口时，自动显示 Bookmarks
+let NERDTreeShowBookmarks=1
 
 " 显示/隐藏 MiniBufExplorer 窗口
 map <Leader>bl :MBEToggle<cr>
 " buffer 切换快捷键
 map <C-C> :MBEbn<cr>
 map <C-X> :MBEbp<cr>
+" 关闭当前buff
+map <Leader>bd :MBEbd<cr>
 
 " 自动格式化C++文档
 map <Leader>kf :Autoformat<cr>
 
-nnoremap <leader>jd :YcmCompleter GoToDeclaration<CR>
+nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
 " 只能是 #include 或已打开的文件
-nnoremap <leader>je :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gf :YcmCompleter GoToDefinition<CR>
+nnoremap <leader>gg :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
-let g:ycm_global_ycm_extra_conf = '~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'
-"打开vim时不再询问是否加载ycm_extra_conf.py配置
-let g:ycm_confirm_extra_conf=0
-"使用ctags生成的tags文件
-let g:ycm_collect_identifiers_from_tag_files = 1
-let g:ycm_show_diagnostics_ui = 0
+" powerline
+set encoding=utf-8
+set laststatus=2
+set t_Co=256
+let g:Powerline_symbols="fancy"
+
+set fillchars+=stl:\ ,stlnc:\
+
+" 打开后自动切到编辑区
+wincmd w
+wincmd w
+autocmd VimEnter * wincmd w
+autocmd VimEnter * wincmd w
+
+" 显示行尾多余的TAB键 空格等空白字符
+set list
+set listchars=tab:>-,trail:-
+highlight WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+$/
+
+let g:persistentBehaviour=0             "只剩一个窗口时, 退出vim.
+
+"让vim记忆上次编辑的位置
+autocmd BufReadPost * if line("'\"")>0&&line("'\"")<=line("$") | exe "normal g'\"" | endif

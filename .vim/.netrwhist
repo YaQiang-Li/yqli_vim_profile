@@ -1,3 +1,9 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =1
-let g:netrw_dirhist_1='/home/yqli/2-MI/TeamTalk/server/src/login_server'
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/liyaqiang/1-repo_project/ipc2255ei7n_v7/packages/linux_lsp/kernel/linux-2.6.37/include/keys'
+let g:netrw_dirhist_2='/home/liyaqiang/4-free_project/ubi-2.6/include/linux'
+let g:netrw_dirhist_3='/home/liyaqiang/1-repo_project/ipc2255ei7n_v7/packages/linux_lsp/kernel/linux-2.6.37/lib'
+let g:netrw_dirhist_4='/home/liyaqiang/1-repo_project/hi3536_nvr_v7/packages/linux_lsp/boot/u-boot-2010.06/board/hi3536_nvr_v7'
+let g:netrw_dirhist_5='/home/liyaqiang/1-repo_project/hi3536_nvr_v7/packages/linux_lsp/rootfs/nfs/hi35xx/rootfs/etc'
+let g:netrw_dirhist_6='/home/liyaqiang/1-repo_project/0-svr2730/0-3536/packages/linux_lsp/boot/u-boot-2010.06/board/nvr1821'
+let g:netrw_dirhist_7='/home/liyaqiang/1-repo_project'
