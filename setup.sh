@@ -22,13 +22,19 @@
 #      Author: emlyq@hotmail.com
 #      Created on: Thu Apr 20 11:09:27 UTC 2017
 
-ln -s `pwd`/bashrc ~/.bashrc
-ln -s `pwd`/fonts ~/.fonts
-ln -s `pwd`/gitconfig ~/.gitconfig
-ln -s `pwd`/indexer_files ~/.indexer_files
-ln -s `pwd`/indexer_files_tags ~/.indexer_files_tags
-ln -s `pwd`/profile ~/.profile
-ln -s `pwd`/scripts ~/9-scripts
-ln -s `pwd`/vim ~/.vim
-ln -s `pwd`/vimrc ~/.vimrc
+local_path=`pwd`
+file_list="bashrc fonts gitconfig indexer_files indexer_files_tags profile vim vimrc"
 
+echo "Backup... --> ~/vim_backup"
+mkdir -p ~/vim_backup
+
+for i in ${file_list}
+do
+	mv ~/.$i  ~/vim_backup
+	ln -s ${local_path}/$i ~/.$i
+done
+
+mv ~/9-scripts ~/vim_backup
+ln -s ${local_path}/scripts ~/9-scripts
+
+echo "Done"
