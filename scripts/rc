@@ -1,0 +1,18 @@
+#!/bin/sh
+
+local_path=`pwd`
+projs=`find -name .git | sed 's/\/.git//g'`
+
+for i in $projs;
+do
+	cd $i
+	git_status=`git status`
+	echo "${git_status}" |grep -q "git add <file>"
+	if [ $? -eq 0 ]
+	then
+		echo -e "\033[1;32m ------ $i ------ \033[0m"
+		git status
+		echo "--------------------------------------------------------------------------------"
+	fi
+	cd ${local_path}
+done

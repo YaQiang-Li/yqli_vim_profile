@@ -1,0 +1,96 @@
+#!/bin/sh
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements. See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership. The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License. You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+#      File Name: headFcreat
+#      Author: emlyq@hotmail.com
+#      Created on: Wed Nov 11 14:39:49 CST 2015
+
+# we have less than 1 arguments. Print the help text:
+if [ $# -lt 1 ] ; then
+	echo "Usage: $0 [mode] 'filename'"
+	echo ""
+	exit 1
+fi
+
+if [ $# -eq 1 ];then
+	FILE=$1
+	FILE_NAME=$(echo "$FILE" | sed -r 's/.*\///g')
+	FILE_DIR=$(echo "$FILE" | sed -r 's/^(.*\/)[^/]+\/?/\1/g')
+fi
+
+if [ $# -eq 2 ];then
+	FILE=$1
+	MODE=$2
+	FILE_NAME=$(echo "$FILE" | sed -r 's/.*\///g')
+	FILE_DIR=$(echo "$FILE" | sed -r 's/^(.*\/)[^/]+\/?/\1/g')
+fi
+
+DEFINE_NAME=$(basename "$FILE_NAME" .h)_H
+DEFINE_NAME=$(echo $DEFINE_NAME | tr '[a-z]' '[A-Z]')
+
+if [ $FILE = $FILE_DIR ];then
+	FILE_DIR="./"
+fi
+
+mkdir -p $FILE_DIR
+if [ -f $FILE ];then
+	echo "ERROR: $FILE is exist."
+	echo ""
+	exit 1
+fi
+touch  $FILE
+if [ -n "$MODE" ];then
+	chmod $MODE $FILE
+fi
+
+function my_echo() {
+	echo "$1" >> $FILE
+}
+
+my_echo "/*"
+my_echo " * Licensed to the Apache Software Foundation (ASF) under one"
+my_echo " * or more contributor license agreements. See the NOTICE file"
+my_echo " * distributed with this work for additional information"
+my_echo " * regarding copyright ownership. The ASF licenses this file"
+my_echo " * to you under the Apache License, Version 2.0 (the"
+my_echo " * \"License\"); you may not use this file except in compliance"
+my_echo " * with the License. You may obtain a copy of the License at"
+my_echo " *"
+my_echo " *   http://www.apache.org/licenses/LICENSE-2.0"
+my_echo " *"
+my_echo " * Unless required by applicable law or agreed to in writing,"
+my_echo " * software distributed under the License is distributed on an"
+my_echo " * \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY"
+my_echo " * KIND, either express or implied. See the License for the"
+my_echo " * specific language governing permissions and limitations"
+my_echo " * under the License."
+my_echo " */"
+my_echo ""
+my_echo "/*******************************************************************************"
+my_echo " *      File Name: $FILE_NAME"
+my_echo " *      Author: emlyq@hotmail.com"
+my_echo " *      Created on: $('date')"
+my_echo " ******************************************************************************/"
+my_echo ""
+my_echo "#ifndef $DEFINE_NAME"
+my_echo "#define $DEFINE_NAME"
+my_echo ""
+my_echo "#endif"
+

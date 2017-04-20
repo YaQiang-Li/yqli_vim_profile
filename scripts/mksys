@@ -1,0 +1,95 @@
+
+set -x
+
+LOCAL_PATH=/home/liyaqiang/1-repo_project/0-svr2730/2-3536
+
+TARGET_WORKSPACE=${LOCAL_PATH}
+
+TARGET_LSP_DIR=${TARGET_WORKSPACE}/packages/linux_lsp
+
+IMG_RELEASEDIR=/home/liyaqiang/1-repo_project/0-svr2730/2-3536/release/boards/hi3536/svr2730
+
+ROOTFS_OUT=${TARGET_WORKSPACE}/rootfs
+
+
+#$(info -------------------------------------------)
+#$(info TARGET_WORKSPACE   = $(TARGET_WORKSPACE))
+#$(info TARGET_SDK_DIR     = $(TARGET_SDK_DIR))
+#$(info TARGET_LSP_DIR     = $(TARGET_LSP_DIR))
+#$(info TARGET_RELEASE_DIR = $(TARGET_RELEASE_DIR))
+#$(info -------------------------------------------)
+
+HOST_TOOL=${TARGET_LSP_DIR}/ostools
+#CPU_BIT_WIDTH=`shell uname -m`
+DEFAULTMAKEDEVS=${HOST_TOOL}/bin/makedevs-32
+DEFAULTMKUBIFS=${HOST_TOOL}/bin/mkfs.ubifs-32
+DEFAULTUBINIZE=${HOST_TOOL}/bin/ubinize-32
+
+TOOLS_DIR=/opt/linux1.2/tools
+
+Q=@
+
+# Compile each modules
+#first build SDK module
+#$(call include-makefiles, $(TARGET_SDK_DIR)/make.mk)
+#$(call include-all-subs-makefile, $(TARGET_WORKSPACE)/packages)
+
+# Prepare for compiling, it should be called as: sys-build prepare_env
+#prepare_env:
+#	echo "Compile $(TARGET_PLATFORM)-$(TARGET_BOARD) IOS start"
+#	rm -rf $(ROOTFS_OUT)/*
+#	tar xf $(TARGET_LSP_DIR)/rootfs/nfs/hi3520d/rootfs.tar.gz -C $(TARGET_WORKSPACE)
+#	mv -v $(TARGET_WORKSPACE)/rootfs_hi35xx $(ROOTFS_OUT)/
+#	rm -rf $(TARGET_WORKSPACE)/rootfs_hi35xx
+
+# End for compiling, it should be called as: sys-build finish_env
+#makeos:
+	cd ${ROOTFS_OUT} && sudo find . | cpio -H newc -o > ${IMG_RELEASEDIR}/initramfs.img
+	gzip -9 ${IMG_RELEASEDIR}/initramfs.img
+	mv ${IMG_RELEASEDIR}/initramfs.img.gz ${IMG_RELEASEDIR}/initramfs.img
+	mkimage -A arm -O linux -T ramdisk -C none -a 0x82000000 -e 0x82000000 -n cpioInitramfs -d ${IMG_RELEASEDIR}/initramfs.img ${IMG_RELEASEDIR}/uInitramfs
+	rm ${IMG_RELEASEDIR}/initramfs.img && chmod 777 ${IMG_RELEASEDIR}/uInitramfs
+
+	#build master image
+	#cp -f ${IMG_RELEASEDIR}/master/uImage ${IMG_RELEASEDIR}/linux.ios
+	#cd ${IMG_RELEASEDIR} && ${TOOLS_DIR}/updata linux.ios uInitramfs update.linux
+	#mv ${IMG_RELEASEDIR}/update.linux ${IMG_RELEASEDIR}/master/update.linux
+	#chmod 777 ${IMG_RELEASEDIR}/master/update.linux
+
+	#build single image
+	rm -f ${IMG_RELEASEDIR}/linux.ios
+	cp -f /home/liyaqiang/1-repo_project/0-svr2730/2-3536/packages/linux_lsp/kernel/linux-3.10.0/arch/arm/boot/uImage ${IMG_RELEASEDIR}/linux.ios
+	cd ${IMG_RELEASEDIR} && ${TOOLS_DIR}/updata linux.ios uInitramfs update.linux
+	chmod 777 ${IMG_RELEASEDIR}/update.linux
+	mv ${IMG_RELEASEDIR}/update.linux ${IMG_RELEASEDIR}/update.linux.single
+
+	tar cvzf ${IMG_RELEASEDIR}/rootfs.tar.bz2 ${ROOTFS_OUT}
+
+	#build slave image
+	#rm -f ${IMG_RELEASEDIR}/linux.ios
+	#cp -f ${IMG_RELEASEDIR}/slave/uImage ${IMG_RELEASEDIR}/linux.ios
+	#rm -f ${ROOTFS_OUT}/bin/netcbb_daemon
+	#rm -f ${ROOTFS_OUT}/bin/pppd
+	#rm -f ${ROOTFS_OUT}/bin/pppoe
+	#rm -f ${ROOTFS_OUT}/sbin/dropbear
+	#rm -f ${ROOTFS_OUT}/sbin/dropbearkey
+	#cd ${ROOTFS_OUT} && sudo find . | cpio -H newc -o > ${IMG_RELEASEDIR}/initramfs.img
+	#gzip -9 ${IMG_RELEASEDIR}/initramfs.img
+	#mv ${IMG_RELEASEDIR}/initramfs.img.gz ${IMG_RELEASEDIR}/initramfs.img
+	#mkimage -A arm -O linux -T ramdisk -C none -a 0x82000000 -e 0x82000000 -n cpioInitramfs -d ${IMG_RELEASEDIR}/initramfs.img ${IMG_RELEASEDIR}/uInitramfs
+	##rm ${IMG_RELEASEDIR}/initramfs.img && chmod 777 ${IMG_RELEASEDIR}/uInitramfs
+	#cd ${IMG_RELEASEDIR} && ${TOOLS_DIR}/updata linux.ios uInitramfs update.linux
+	#mv ${IMG_RELEASEDIR}/update.linux ${IMG_RELEASEDIR}/slave/update.linux
+	#chmod 777 ${IMG_RELEASEDIR}/slave/update.linux
+
+	#rm -f ${IMG_RELEASEDIR}/linux.ios
+
+	mv ${IMG_RELEASEDIR}/update.linux.single ${IMG_RELEASEDIR}/update.linux
+	cp -f ${IMG_RELEASEDIR}/update.linux ${LOCAL_PATH}/k.bin
+	cp -f ${IMG_RELEASEDIR}/update.linux  ${IMG_RELEASEDIR}/update.linux-`date "+%Y-%m-%d-%H%M%S"`
+
+	#sz release/boards/hi3536/svr2730/update.linux
+
+	#rm -rf $(ROOTFS_OUT)
+	#echo "Compile $(TARGET_PLATFORM)-$(TARGET_BOARD) IOS finished"
+

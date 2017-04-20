@@ -1,0 +1,11 @@
+[user]
+	name = liyaqiang
+	email = liyaqiang@kedacom.com
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[push]
+	default = current

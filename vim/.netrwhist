@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/home/liyaqiang/1-repo_project/0-svr2730/0-3536/packages/drvlib/src/plats'
+let g:netrw_dirhist_2='/home/liyaqiang/1-repo_project/0-svr2730/0-3536/packages/drvlib/src/plats/hi3536'
+let g:netrw_dirhist_3='/home/liyaqiang/1-repo_project/0-svr2730/7-3519/packages/linux_lsp/kernel/klsp/boards/kdm/svr2730_hi3519'
+let g:netrw_dirhist_4='/home/liyaqiang/1-repo_project/4-d01f_4k/.repo'
+let g:netrw_dirhist_5='/home/liyaqiang/1-repo_project/0-svr2730/3-3519/packages/linux_lsp/kernel/klsp/drivers/mca/mca_v1.1'
+let g:netrw_dirhist_6='/home/liyaqiang/1-repo_project/0-svr2730/0-3536/packages/mca/src'
+let g:netrw_dirhist_7='/home/liyaqiang/9-scripts'

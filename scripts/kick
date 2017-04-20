@@ -1,0 +1,380 @@
+#!/bin/sh
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements. See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership. The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License. You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+#      File Name: kick.sh
+#      Author: liyaqiang@kedacom.com
+#      Created on: Mon Apr 10 14:38:34 CST 2017
+
+#set -x
+
+local_path=`pwd`
+linux_lsp_path=${local_path}/packages/linux_lsp
+
+echo "DBG: local_path=${local_path}"
+
+if [ $# -lt 2 ] ; then
+	echo "Usage: $0 create|clean 'src pro name' 'target pro name'"
+	echo "	$0 create SVR2730 medt100"
+	echo "	$0 clean medt100"
+	echo ""
+	exit 1
+fi
+
+declare -u src_pro_name=$2
+declare -u tar_pro_name=$3
+declare -l src_pro_name_l=$2
+declare -l tar_pro_name_l=$3
+
+echo "DBG: NAMEs: ${src_pro_name} ${tar_pro_name} ${src_pro_name_l} ${tar_pro_name_l}"
+
+get_makerules_info()
+{
+	# Getting config file infomations
+	makerulues_builds_path=${local_path}/makerulers
+	src_pro_makerules_config_file=`find ${makerulues_builds_path} -iname ${src_pro_name}*`
+	# Checking whether the source project exists?
+	if [ -z ${src_pro_makerules_config_file} ];then
+		echo "ERROR: Project '${src_pro_name_l}' hasn't existed."
+		echo ""
+		return 1
+	fi
+	src_pro_makerulues_config_path=`dirname ${src_pro_makerules_config_file}`
+	tar_pro_makerulues_config_file=${src_pro_makerulues_config_path}/${tar_pro_name_l}_config
+
+	# Checking whether the target project exists?
+	if [ -f ${tar_pro_makerulues_config_file} ];then
+		echo "ERROR: Project '${tar_pro_name_l}' has existed."
+		echo ""
+		return 2
+	fi
+
+	echo "DBG: CONFIG_FILE: ${src_pro_makerules_config_file} ${src_pro_makerulues_config_path} ${tar_pro_makerulues_config_file}"
+}
+
+get_uboot_config()
+{
+	# Getting uboot configure file infomations
+	uboot_repository_path=${linux_lsp_path}/boot/u-boot-2010.06
+	src_pro_uboot_config_file=`find ${uboot_repository_path}/include/configs -iname ${src_pro_name}.h`
+	# Checking whether the source project exists?
+	if [ -z ${src_pro_uboot_config_file} ];then
+		echo "ERROR: Project '${src_pro_name_l}' hasn't existed."
+		echo ""
+		return 1
+	fi
+	src_pro_uboot_config_master_file=`find ${uboot_repository_path}/include/configs -iname ${src_pro_name}_master.h`
+	src_pro_uboot_config_slave_file=`find ${uboot_repository_path}/include/configs -iname ${src_pro_name}_slave.h`
+
+	src_pro_uboot_config_path=`dirname ${src_pro_uboot_config_master_file}`
+
+	tar_pro_uboot_config_file=${uboot_repository_path}/include/configs/${tar_pro_name_l}.h
+	if [ -n ${src_pro_uboot_config_master_file} ]; then
+		tar_pro_uboot_config_master_file=${uboot_repository_path}/include/configs/${tar_pro_name_l}_master.h
+	fi
+	if [ -n ${src_pro_uboot_config_slave_file} ]; then
+		tar_pro_uboot_config_slave_file=${uboot_repository_path}/include/configs/${tar_pro_name_l}_slave.h
+	fi
+
+	# Checking whether the target project exists?
+	if [ -f ${tar_pro_uboot_config_file} ];then
+		echo "ERROR: Project '${tar_pro_name_l}' has existed."
+		echo ""
+		return 2
+	fi
+
+	src_pro_uboot_board_file=`find ${uboot_repository_path}/board -iname ${src_pro_name} -type d`
+	src_pro_uboot_board_path=`dirname ${src_pro_uboot_board_file}`
+
+	tar_pro_uboot_board_file=${src_pro_uboot_board_path}/${tar_pro_name_l}
+
+	echo "DBG: UBOOT CONFIG: ${src_pro_uboot_config_file} ${tar_pro_uboot_config_file}"
+}
+
+get_boards_config()
+{
+	board_repository_path=${linux_lsp_path}/rootfs/boards
+	src_pro_boards_file=`find ${board_repository_path} -iname ${src_pro_name} -type d`
+	# Checking whether the source project exists?
+	if [ -z ${src_pro_boards_file} ];then
+		echo "ERROR: Project '${src_pro_name_l}' hasn't existed."
+		echo ""
+		return 1;
+	fi
+	src_pro_boards_path=`dirname ${src_pro_boards_file}`
+	tar_pro_boards_file=${src_pro_boards_path}/${tar_pro_name_l}
+	# Checking whether the target project exists?
+	if [ -d ${tar_pro_boards_file} ];then
+		echo "ERROR: Project '${tar_pro_name_l}' has existed."
+		echo ""
+		return 2
+	fi
+
+	echo "DBG: BOARDS CONFIG: ${src_pro_boards_path}, ${tar_pro_boards_file}"
+}
+
+get_klsp_config()
+{
+	klsp_repository_path=${linux_lsp_path}/kernel/klsp
+	src_pro_klsp_file=`find ${klsp_repository_path} -iname ${src_pro_name} -type d`
+	# Checking whether the source project exists?
+	if [ -z ${src_pro_klsp_file} ];then
+		echo "ERROR: Project '${src_pro_name_l}' hasn't existed."
+		echo ""
+		return 1;
+	fi
+	src_pro_klsp_path=`dirname ${src_pro_klsp_file}`
+	tar_pro_klsp_file=${src_pro_klsp_path}/${tar_pro_name_l}
+	# Checking whether the target project exists?
+	if [ -d ${tar_pro_klsp_file} ];then
+		echo "ERROR: Project '${tar_pro_name_l}' has existed."
+		echo ""
+		return 2
+	fi
+
+	echo "DBG: klsp CONFIG: ${src_pro_klsp_path}, ${tar_pro_klsp_file}"
+}
+
+get_kernel_config()
+{
+	# Getting kernel configure file infomations
+	kernel_repository_path=${linux_lsp_path}/kernel
+	kernel_version=`find ${kernel_repository_path} -iname linux-* -type d -maxdepth 1`
+	kernel_version=`basename ${kernel_version}`
+	kernel_repository_path=${kernel_repository_path}/${kernel_version}
+	src_pro_kernel_config_file=`find ${kernel_repository_path}/arch/arm/configs -iname *${src_pro_name}_defconfig`
+	# Checking whether the source project exists?
+	if [ -z ${src_pro_kernel_config_file} ];then
+		echo "ERROR: Project '${src_pro_name_l}' hasn't existed."
+		echo ""
+		return 1
+	fi
+	src_pro_kernel_config_master_file=`find ${kernel_repository_path}/arch/arm/configs -iname *${src_pro_name}_master_defconfig`
+	src_pro_kernel_config_slave_file=`find ${kernel_repository_path}/arch/arm/configs -iname *${src_pro_name}_slave_defconfig`
+
+	src_pro_kernel_config_path=`dirname ${src_pro_kernel_config_master_file}`
+
+	tar_pro_kernel_config_file=${src_pro_kernel_config_file/${src_pro_name_l}/${tar_pro_name_l}}
+	if [ -n ${src_pro_kernel_config_master_file} ]; then
+		tar_pro_kernel_config_master_file=${src_pro_kernel_config_master_file/${src_pro_name_l}/${tar_pro_name_l}}
+	fi
+	if [ -n ${src_pro_kernel_config_slave_file} ]; then
+		tar_pro_kernel_config_slave_file=${src_pro_kernel_config_slave_file/${src_pro_name_l}/${tar_pro_name_l}}
+	fi
+
+	# Checking whether the target project exists?
+	if [ -f ${tar_pro_kernel_config_file} ];then
+		echo "ERROR: Project '${tar_pro_name_l}' has existed."
+		echo ""
+		return 2
+	fi
+
+	echo "DBG: kernel CONFIG: ${src_pro_kernel_config_file} ${tar_pro_kernel_config_file}"
+}
+
+do_create()
+{
+	if [ -z ${src_pro_name} ] || [ -z ${tar_pro_name} ]; then
+		echo "Usage: $0 create|clean 'src pro name' 'target pro name'"
+		echo "	$0 create SVR2730 medt100"
+		echo ""
+		exit 2
+	fi
+
+	# Setting makerules
+	echo "INFO: Setting makerules..."
+
+	get_makerules_info	# makerules
+	if [ $? -ne 0 ];then
+		exit -1
+	fi
+	get_uboot_config	# uboot
+	if [ $? -ne 0 ];then
+		exit -1
+	fi
+	get_boards_config	# boards
+	if [ $? -ne 0 ];then
+		exit -1
+	fi
+	get_klsp_config		# klsp
+	if [ $? -ne 0 ];then
+		exit -1
+	fi
+	get_kernel_config	# kernel
+	if [ $? -ne 0 ];then
+		exit -1
+	fi
+
+	# Get all infomations and check them.
+
+	# executing actions.
+	# Copying config file - makerules
+	cp ${src_pro_makerules_config_file} ${tar_pro_makerulues_config_file}
+
+	# Modifying configure infomations
+	sed -i '/APP_BOARD/d' ${tar_pro_makerulues_config_file}
+	echo "APP_BOARD := ${tar_pro_name_l}" >> ${tar_pro_makerulues_config_file}
+	cat ${tar_pro_makerulues_config_file}
+
+	# Copying uboot config
+	# configure file
+	cp ${src_pro_uboot_config_file} ${tar_pro_uboot_config_file}
+	sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_uboot_config_file}
+	sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_uboot_config_file}
+
+	if [ -n "${src_pro_uboot_config_master_file}" ]; then
+		cp ${src_pro_uboot_config_master_file} ${tar_pro_uboot_config_master_file}
+		sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_uboot_config_master_file}
+		sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_uboot_config_master_file}
+	fi
+	if [ -n "${src_pro_uboot_config_slave_file}" ]; then
+		cp ${src_pro_uboot_config_slave_file} ${tar_pro_uboot_config_slave_file}
+		sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_uboot_config_slave_file}
+		sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_uboot_config_slave_file}
+	fi
+
+	uboot_makefile=${uboot_repository_path}/Makefile
+	uboot_makefile_config_counter=`grep -c ${src_pro_name_l} ${uboot_makefile}`
+	uboot_makefile_config_lines=`grep -n ${src_pro_name_l} ${uboot_makefile} | awk -F : '{print $1}'`
+
+	echo "DBG: uboot_makefile_config_counter=${uboot_makefile_config_counter}, ${uboot_makefile_config_lines}"
+
+	declare -a lines_arr
+	i=0
+	for num in ${uboot_makefile_config_lines}
+	do
+		lines_arr[${i}]=${num}
+		let i++
+	done
+
+	let uboot_makefile_config_counter--
+	COPY_START_LINE=${lines_arr[${uboot_makefile_config_counter}]}
+	let COPY_START_LINE++
+	i=0
+	sed -e "${lines_arr[0]},${COPY_START_LINE}"H -e "${COPY_START_LINE}"G ${uboot_makefile} > ${uboot_makefile}_tmp
+	mv -f ${uboot_makefile}_tmp ${uboot_makefile}
+	chmod 755 ${uboot_makefile}
+
+
+	sed -i "${COPY_START_LINE},\$s/${src_pro_name_l}/${tar_pro_name_l}/g" ${uboot_makefile}
+
+	cp -rf ${src_pro_uboot_board_path}/${src_pro_name_l} ${src_pro_uboot_board_path}/${tar_pro_name_l}
+
+	#Porting Boards
+	cp -rf ${src_pro_boards_file} ${tar_pro_boards_file}
+	sed -i "s/${src_pro_name}/${tar_pro_name}/g" `grep ${src_pro_name} -rl ${tar_pro_boards_file}`
+	sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" `grep ${src_pro_name_l} -rl ${tar_pro_boards_file}`
+
+	#Porting klsp
+	cp -rf ${src_pro_klsp_file} ${tar_pro_klsp_file}
+	sed -i "s/${src_pro_name}/${tar_pro_name}/g" `grep ${src_pro_name} -rl ${tar_pro_klsp_file}`
+	sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" `grep ${src_pro_name_l} -rl ${tar_pro_klsp_file}`
+
+	echo "obj-\$(CONFIG_${tar_pro_name})          += kdm/${tar_pro_name_l}/" >> ${klsp_repository_path}/boards/Makefile
+
+	klsp_kconfig_file=${klsp_repository_path}/boards/Kconfig
+	sed -i "\$d" ${klsp_kconfig_file}
+
+	echo "config ${tar_pro_name}" >> ${klsp_kconfig_file}
+	echo "bool \"${tar_pro_name} board\"" >> ${klsp_kconfig_file}
+	# This is a bug, please help me
+	echo "depends on ARCH_HI3536 && KDM_PROJECT" >> ${klsp_kconfig_file}
+	echo "" >> ${klsp_kconfig_file}
+	echo "endchoice" >> ${klsp_kconfig_file}
+
+	#Porting kernel
+	cp ${src_pro_kernel_config_file} ${tar_pro_kernel_config_file}
+	sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_kernel_config_file}
+	sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_kernel_config_file}
+
+	if [ -n "${src_pro_kernel_config_master_file}" ]; then
+		cp ${src_pro_kernel_config_master_file} ${tar_pro_kernel_config_master_file}
+		sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_kernel_config_master_file}
+		sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_kernel_config_master_file}
+	fi
+	if [ -n "${src_pro_kernel_config_slave_file}" ]; then
+		cp ${src_pro_kernel_config_slave_file} ${tar_pro_kernel_config_slave_file}
+		sed -i "s/${src_pro_name}/${tar_pro_name}/g" ${tar_pro_kernel_config_slave_file}
+		sed -i "s/${src_pro_name_l}/${tar_pro_name_l}/g" ${tar_pro_kernel_config_slave_file}
+	fi
+
+	sed -i "s/defined (CONFIG_${src_pro_name})/defined (CONFIG_${src_pro_name}) || defined (CONFIG_${tar_pro_name})/g" `grep "defined (CONFIG_${src_pro_name})" -rl ${kernel_repository_path}`
+	sed -i "s/#ifdef CONFIG_${src_pro_name}/#if defined (CONFIG_${src_pro_name}) || defined (CONFIG_${tar_pro_name})/g" `grep "#ifdef CONFIG_${src_pro_name}" -rl ${kernel_repository_path}`
+
+	# Actions end.
+	echo "INFO: Actions end."
+}
+
+do_clean()
+{
+	echo "INFO: Starting clean '${src_pro_name}'"
+
+	get_makerules_info
+	# Remove makerules configure file
+	if [ $? -ne 1 ];then
+		rm -rf ${src_pro_makerules_config_file}
+	fi
+
+	get_uboot_config
+	if [ $? -ne 1 ];then
+		rm -rf ${src_pro_uboot_config_file}
+		rm -rf ${src_pro_uboot_config_master_file}
+		rm -rf ${src_pro_uboot_config_slave_file}
+		cd ${uboot_repository_path}
+		git checkout Makefile
+		cd ${local_path}
+		rm -rf ${uboot_repository_path}/board/${src_pro_name_l}
+	fi
+
+	get_boards_config
+	if [ $? -ne 1 ];then
+		rm -rf ${src_pro_boards_file}
+	fi
+
+	get_klsp_config
+	if [ $? -ne 1 ];then
+		rm -rf ${src_pro_klsp_file}
+		cd ${klsp_repository_path}
+		git checkout boards/Kconfig boards/Makefile
+		cd ${local_path}
+	fi
+
+	get_kernel_config
+	if [ $? -ne 1 ];then
+		rm -rf ${src_pro_kernel_config_file}
+		rm -rf ${src_pro_kernel_config_master_file}
+		rm -rf ${src_pro_kernel_config_slave_file}
+		cd ${kernel_repository_path}
+		git checkout . && git clean -xdf
+		cd ${local_path}
+	fi
+	echo "INFO: Cleaning end."
+}
+
+case "$1" in
+	create)
+		do_create
+		;;
+	clean)
+		do_clean
+		;;
+	*)
+		;;
+esac
+

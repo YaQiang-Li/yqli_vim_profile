@@ -1,0 +1,7 @@
+
+set -x
+#make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi- svr2730_hi3519_defconfig
+cp .config config_bak
+make -j8 uImage CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi-
+cp arch/arm/boot/uImage uImage-hi3519
+scp arch/arm/boot/uImage root@172.16.104.191:/opt/tftpboot/uImage-hi3519

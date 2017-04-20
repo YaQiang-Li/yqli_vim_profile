@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# File Name: GenRelInfo.sh
+# Author: liyaqiang@kedacom.com
+# Created on: Sat Dec 19 12:27:34 CST 2015
+
+#echo "committer liyaqiang"
+git log -1 | grep "Author" | sed "s/Author:/committer:/g"
+git log -1 | grep "Date" | sed 's/Date:   //g'
+git log -1 2> /dev/null | head -n 1 | cut -b -15
+echo -n "仓库："
+git config -l | grep "remote.origin.url=" | sed 's/remote.origin.url=//g'
+echo -n "分支："
+local_branch_name=`git branch | grep "\*" | sed 's/* //g'`
+git config -l | grep "branch.${local_branch_name}.merge=" | awk -F= '{print $2}'
+echo "版本："
+echo "平台/产品: "
+#git log -1 | head -n 5 | tail -n 1
+#git log -1 | sed -n '5p'
+git log -1 | sed -n '5,$p'
