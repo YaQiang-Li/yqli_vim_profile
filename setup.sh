@@ -22,12 +22,13 @@
 #      Author: emlyq@hotmail.com
 #      Created on: Thu Apr 20 11:09:27 UTC 2017
 
+ln -s `pwd`/bashrc ~/.bashrc
 ln -s `pwd`/fonts ~/.fonts
 ln -s `pwd`/gitconfig ~/.gitconfig
 ln -s `pwd`/indexer_files ~/.indexer_files
 ln -s `pwd`/indexer_files_tags ~/.indexer_files_tags
 ln -s `pwd`/profile ~/.profile
-ln -s `pwd`/9-scripts ~/.scripts
+ln -s `pwd`/scripts ~/9-scripts
 ln -s `pwd`/vim ~/.vim
 ln -s `pwd`/vimrc ~/.vimrc
 
