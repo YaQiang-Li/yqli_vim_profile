@@ -25,6 +25,7 @@
 set -x
 
 # make svr2730_config CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
+# make medt100_config CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
 make -j8 CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
 #scp release/boards/hi3536/svr2730/boot/u-boot.bin root@172.16.104.191:/opt/tftpboot/u-boot_2730
 #scp u-boot.bin root@172.16.104.191:/opt/tftpboot/u2730

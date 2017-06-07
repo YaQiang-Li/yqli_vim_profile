@@ -29,5 +29,5 @@ TERM=linux
 
 source ~/9-scripts/godir.sh
 
-#export CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
-#export ARCH=arm
+export CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
+export ARCH=arm

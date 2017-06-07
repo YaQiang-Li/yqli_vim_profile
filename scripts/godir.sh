@@ -37,7 +37,7 @@ function ci()
 	T=$(gettop)
 	echo "$T"
 	echo -n "Creating index..."
-	(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type d > filelist)
+	(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d > filelist)
 	echo " Done"
 	echo ""
 }
@@ -52,7 +52,7 @@ function ca()
 	T=$(gettop)
 	echo "$T"
 	echo -n "Creating index..."
-	(\cd $T; find ./$1 -wholename ./out -prune -o -wholename ./.repo -prune -o -type d >> filelist)
+	(\cd $T; find ./$1 -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d >> filelist)
 	echo " Done"
 	echo ""
 }
@@ -68,7 +68,7 @@ function go()
 	echo "$T"
 	if [[ ! -f $T/filelist ]]; then
 		echo -n "Creating index..."
-		(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -type d > filelist)
+		(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d > filelist)
 		echo " Done"
 		echo ""
 	fi

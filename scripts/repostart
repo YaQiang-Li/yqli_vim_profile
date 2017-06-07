@@ -24,7 +24,11 @@
 
 
 local_path=`pwd`
-projs=`find ./packages -name .git  | sed 's/\/.git//g'`
+if [ -d "./packages" ] ; then
+	projs=`find ./packages -name .git  | sed 's/\/.git//g'`
+else
+	projs=`find ./boot ./kernel ./platform -name .git  | sed 's/\/.git//g'`
+fi
 
 for i in $projs
 do

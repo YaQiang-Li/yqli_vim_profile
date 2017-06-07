@@ -24,6 +24,7 @@
 
 set -x
 # make ARCH=arm hi3536_svr2730_defconfig
+# make ARCH=arm hi3536_medt100_defconfig
 make -j8 uImage ARCH=arm CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
 scp arch/arm/boot/uImage root@172.16.104.191:/opt/tftpboot/uImage-hi3536
 # make savedefconfig && mv defconfig arch/arm/configs/hi3536_svr2730_defconfig
