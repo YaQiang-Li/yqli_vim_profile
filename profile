@@ -15,7 +15,7 @@ if [ -n "$BASH_VERSION" ]; then
 	. "$HOME/.bashrc"
     fi
 fi
-PATH="$PATH:~/9-scripts:~/2-lib_project/makerulers:~/var/www/arcanist/devenv/arcanist/bin:~/var/www/arcanist/devenv/arcanist/scripts:~/bin/devenv/scripts"
+PATH="$PATH:$HOME/9-scripts:~/2-lib_project/makerulers:~/var/www/arcanist/devenv/arcanist/bin:~/var/www/arcanist/devenv/arcanist/scripts:~/bin/devenv/scripts"
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/bin" ] ; then
