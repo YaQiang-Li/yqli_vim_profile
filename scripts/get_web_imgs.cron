@@ -1,0 +1,2 @@
+0 10 * * * /root/9-scripts/get_bing_bg.sh
+0 12 */15 * * /root/9-scripts/get_pexles_img.sh

@@ -162,7 +162,7 @@ let g:indexer_ctagsCommandLineOptions="--c++-kinds=+p+l+x+c+d+e+f+g+m+n+s+t+u+v 
 let g:indexer_disableCtagsWarning=1
 
 " 设置ctags路径
-let g:tagbar_ctags_bin = '~/bin/bin/ctags'
+let g:tagbar_ctags_bin = 'ctags'
 " 设置 tagbar 子窗口的位置出现在主编辑区的左边 
 let tagbar_left=1 
 " 设置显示／隐藏标签列表子窗口的快捷键。速记：tag list 
@@ -325,8 +325,8 @@ set fillchars+=stl:\ ,stlnc:\
 " 设置cscope
 set nocscopeverbose
 
-if has("cscope") && filereadable("/usr/bin/cscope")
-	set csprg=/usr/bin/cscope
+if has("cscope") && filereadable("cscope")
+	set csprg=cscope
 	set csto=0
 	set cst
 	set nocsverb
@@ -341,7 +341,7 @@ if has("cscope") && filereadable("/usr/bin/cscope")
 endif
 
 if has("cscope")
-	set csprg=/usr/local/bin/cscope
+	set csprg=cscope
 	set csto=0
 	set cst
 	set csverb
