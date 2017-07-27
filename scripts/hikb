@@ -22,9 +22,11 @@
 #      Author: emlyq@hotmail.com
 #      Created on: Wed Oct 12 09:41:19 UTC 2016
 
-set -x
+#set -x
+source ~/9-scripts/godir.sh
 # make ARCH=arm hi3536_svr2730_defconfig
 # make ARCH=arm hi3536_medt100_defconfig
+go linux-3.10.0
 make -j8 uImage ARCH=arm CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
 scp arch/arm/boot/uImage root@172.16.104.191:/opt/tftpboot/uImage-hi3536
 # make savedefconfig && mv defconfig arch/arm/configs/hi3536_svr2730_defconfig

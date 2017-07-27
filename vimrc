@@ -396,3 +396,5 @@ let g:persistentBehaviour=0             "只剩一个窗口时, 退出vim.
 "让vim记忆上次编辑的位置
 autocmd BufReadPost * if line("'\"")>0&&line("'\"")<=line("$") | exe "normal g'\"" | endif
 
+"设置粘贴板寄存器最大行数
+set viminfo='10,<500

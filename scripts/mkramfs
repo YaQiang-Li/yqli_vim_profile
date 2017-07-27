@@ -1,0 +1,21 @@
+set -x
+TMP_RELEASE_DIR=`pwd`
+TARGET_WORKSPACE=`pwd`
+SRC_DIR=${TARGET_WORKSPACE}/rootfs_hi3536
+TARGET=ramfs_3536
+
+# APP_ARM_TOOLCHAIN=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi-
+APP_ARM_TOOLCHAIN=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
+
+find ${SRC_DIR}/bin -type f -executable | xargs ${APP_ARM_TOOLCHAIN}strip --strip-unneeded
+find ${SRC_DIR}/lib -type f -name *.so | xargs ${APP_ARM_TOOLCHAIN}strip --strip-unneeded
+find ${SRC_DIR}/lib -type f -name *.so.[0-9]* | xargs ${APP_ARM_TOOLCHAIN}strip --strip-unneeded
+
+cd ${SRC_DIR} && find . | cpio -H newc -o > ${TMP_RELEASE_DIR}/initramfs.img
+cd ..
+gzip -9 ${TMP_RELEASE_DIR}/initramfs.img && mv ${TMP_RELEASE_DIR}/initramfs.img.gz ${TMP_RELEASE_DIR}/initramfs.img
+pwd
+mkimage -A arm -O linux -T ramdisk -C none -a 0x82000000 -e 0x82000000 -n cpioInitramfs -d initramfs.img uInitramfs
+rm initramfs.img && chmod 777 uInitramfs && mv uInitramfs ${TARGET}
+
+scp ${TARGET} root@172.16.104.191:/opt/tftpboot/${TARGET}

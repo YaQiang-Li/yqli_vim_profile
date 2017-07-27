@@ -1,7 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =9
 let g:netrw_dirhist_1='/home/liyaqiang/1-repo_project/0-medt100/0-hi3536/packages/linux_lsp/kernel/klsp/drivers/firmware'
 let g:netrw_dirhist_2='/home/liyaqiang/0-my_wealth/vim_profile'
 let g:netrw_dirhist_3='/home/liyaqiang/1-repo_project/0-medt100/0-hi3536/packages/linux_lsp/kernel/linux-3.10.0/fs/yaffs2'
 let g:netrw_dirhist_4='/home/liyaqiang/1-repo_project/0-medt100/0-hi3536/packages/linux_lsp/boot/u-boot-2010.06'
 let g:netrw_dirhist_5='/home/liyaqiang/1-repo_project/0-medt100/2-buletooth/btctrl/test/base'
+let g:netrw_dirhist_6='/home/liyaqiang/2-lib_project/mca/src/mca_g6'
+let g:netrw_dirhist_7='/home/liyaqiang/1-repo_project/0-medt100/3-hi3536/packages/linux_lsp/kernel/klsp'
+let g:netrw_dirhist_8='/home/liyaqiang/1-repo_project/0-medt100/3-hi3536/packages/linux_lsp/kernel/klsp/include'
+let g:netrw_dirhist_9='/home/liyaqiang/2-lib_project/udm'
