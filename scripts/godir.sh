@@ -86,7 +86,7 @@ function go()
 			local index=1
 			local line
 			for line in ${lines[@]}; do
-				printf "%6s %s\n" "[$index]" $line
+				printf "%6s %s ---- %s\n" "[$index]" $line "[$index]"
 				index=$(($index + 1))
 			done
 			echo

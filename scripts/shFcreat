@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements. See the NOTICE file
@@ -63,7 +63,7 @@ function my_echo() {
 	echo "$1" >> $FILE
 }
 
-my_echo "#!/bin/sh"
+my_echo "#!/bin/bash"
 my_echo "#"
 my_echo "# Licensed to the Apache Software Foundation (ASF) under one"
 my_echo "# or more contributor license agreements. See the NOTICE file"

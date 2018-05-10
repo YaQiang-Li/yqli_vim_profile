@@ -1,8 +1,19 @@
-set -x
+#!/bin/sh
+
+#set -x
+
+if [ -z "$1" ]; then
+	echo "Usage: mkdir <rootfs folder path>"
+	exit 1
+fi
+
 TMP_RELEASE_DIR=`pwd`
 TARGET_WORKSPACE=`pwd`
-SRC_DIR=${TARGET_WORKSPACE}/rootfs_hi3536
-TARGET=ramfs_3536
+SRC_DIR=$1 # rootfs
+TARGET=ramfs
+if [ ! -z "$2" ]; then
+	TARGET=$2
+fi
 
 # APP_ARM_TOOLCHAIN=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi-
 APP_ARM_TOOLCHAIN=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
@@ -18,4 +29,4 @@ pwd
 mkimage -A arm -O linux -T ramdisk -C none -a 0x82000000 -e 0x82000000 -n cpioInitramfs -d initramfs.img uInitramfs
 rm initramfs.img && chmod 777 uInitramfs && mv uInitramfs ${TARGET}
 
-scp ${TARGET} root@172.16.104.191:/opt/tftpboot/${TARGET}
+#scp ${TARGET} root@172.16.104.191:/opt/tftpboot/${TARGET}

@@ -18,17 +18,16 @@
 # under the License.
 #
 
-#      File Name: hibuild
+#      File Name: mh
 #      Author: emlyq@hotmail.com
-#      Created on: Wed Oct 12 09:41:19 UTC 2016
+#      Created on: Wed Aug  2 02:06:18 UTC 2017
 
-#set -x
-#source ~/9-scripts/godir.sh
-# make ARCH=arm hi3536_svr2730_defconfig
-# make ARCH=arm hi3536_medt100_defconfig
-#go linux-3.10.0
-make -j8 uImage ARCH=arm CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
-#scp arch/arm/boot/uImage root@172.16.104.191:/opt/tftpboot/uImage-hi3536
-# make savedefconfig && mv defconfig arch/arm/configs/hi3536_svr2730_defconfig
-#cp arch/arm/boot/uImage arch/arm/boot/uImage-`date "+%Y-%m-%d-%H%M%S"`
-cp arch/arm/boot/uImage uImage-hi3536
+echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi- svr2730_hi3519_defconfig"
+echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi- medt100_hi3519_defconfig"
+echo "make ARCH=arm hi3536_its200_defconfig"
+echo "make ARCH=arm hi3536_svr2730_defconfig"
+echo "make ARCH=arm hi3536_medt100_defconfig"
+echo "make its200_config CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-"
+echo "make svr2730_config CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-"
+echo "make medt100_config CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-"
+echo "ultron 666666"
