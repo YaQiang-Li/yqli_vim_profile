@@ -22,7 +22,6 @@
 #      Author: emlyq@hotmail.com
 #      Created on: Wed Aug  2 02:06:18 UTC 2017
 
-echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi- svr2730_hi3519_defconfig"
 echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv500-linux/bin/arm-hisiv500-linux-uclibcgnueabi- medt100_hi3519_defconfig"
 echo "make ARCH=arm hi3536_its200_defconfig"
 echo "make ARCH=arm hi3536_svr2730_defconfig"
