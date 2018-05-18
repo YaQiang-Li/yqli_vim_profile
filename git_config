@@ -14,3 +14,9 @@
 	merge = refs/heads/master
 [credential]
 	helper = store
+[color]
+	ui = auto
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
