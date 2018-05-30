@@ -37,4 +37,7 @@ done
 mv ~/9-scripts ~/vim_backup
 ln -s ${local_path}/scripts ~/9-scripts
 
+mv ~/bin ~/vim_backup
+ln -s ${local_path}/my_bin ~/bin
+
 echo "Done"
