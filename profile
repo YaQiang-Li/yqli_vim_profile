@@ -31,3 +31,7 @@ source ~/9-scripts/godir.sh
 
 export CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
 export ARCH=arm
+PATH=$PATH:/home/glenn/bin/android-toolchain-r16b/bin/
+export  JAVA_HOME=/usr/java/jdk1.6.0_45
+export  CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+export  PATH=$PATH:$JAVA_HOME/bin

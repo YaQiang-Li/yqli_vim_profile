@@ -1,6 +1,6 @@
 [user]
-	name = liyaqiang
-	email = liyaqiang@kedacom.com
+	name = yaqiang.li
+	email = yaqiang.li@horizon.ai
 [color]
 	ui = auto
 	diff = auto
@@ -9,3 +9,5 @@
 	interactive = auto
 [push]
 	default = current
+[credential]
+	helper = store
