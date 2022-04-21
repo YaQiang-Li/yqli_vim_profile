@@ -1,14 +1,14 @@
 
-#gettop="/home/5apps"
+#gettop="/home/glenn"
 
 
-function gettop
+function gettop()
 {
-	REPOFILE=".repo"
+	REPOFILE=".godir_tag_file"
 	#PWD=`pwd`
 	local HERE=$PWD
 	T=
-	while [ \( ! \( -d $REPOFILE \) \) -a \( $PWD != "/" \) ]; do
+	while [ \( ! \( -f $REPOFILE \) \) -a \( $PWD != "/" \) ]; do
 		\cd ..
 		T=`PWD= /bin/pwd -P`
 	done
@@ -17,6 +17,7 @@ function gettop
 	if [ -d "$T/$REPOFILE" ]; then
 		echo $T
 	fi
+	echo $T
 }
 
 #croot
@@ -34,10 +35,16 @@ function cr()
 # create index file
 function ci()
 {
-	T=$(gettop)
+	topdir=$1
+	if [ "$topdir" ]; then
+		T=$topdir
+		touch .godir_tag_file
+	else
+		T=$(gettop)
+	fi
 	echo "$T"
 	echo -n "Creating index..."
-	(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d > filelist)
+	(\cd $T; find . -wholename ./.git -prune -o -wholename ./output -prune -o -wholename ./build -prune -o -wholename ./deploy -prune -o -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d > filelist)
 	echo " Done"
 	echo ""
 }
@@ -65,7 +72,6 @@ function go()
 		return
 	fi
 	T=$(gettop)
-	echo "$T"
 	if [[ ! -f $T/filelist ]]; then
 		echo -n "Creating index..."
 		(\cd $T; find . -wholename ./out -prune -o -wholename ./.repo -prune -o -wholename ./sdks -prune -o -type d > filelist)

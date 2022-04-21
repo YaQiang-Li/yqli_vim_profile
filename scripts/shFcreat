@@ -24,7 +24,8 @@
 
 # we have less than 1 arguments. Print the help text:
 if [ $# -lt 1 ] ; then
-	echo "Usage: $0 [mode] 'filename'"
+	echo "Usage: $0 'filename' [Permission mode]"
+	echo "$0 test.sh 766"
 	echo ""
 	exit 1
 fi

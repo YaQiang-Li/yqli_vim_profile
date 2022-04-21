@@ -29,9 +29,24 @@ TERM=linux
 
 source ~/9-scripts/godir.sh
 
-export CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
+#export CROSS_COMPILE=/opt/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi-
+#export CROSS_COMPILE=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+#export CROSS_COMPILE=/opt/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export CROSS_COMPILE=/opt/gcc-ubuntu-9.3.0-2020.03-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-
+export LD_LIBRARY_PATH=/opt/gcc-ubuntu-9.3.0-2020.03-x86_64-aarch64-linux-gnu/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 export ARCH=arm
 PATH=$PATH:/home/glenn/bin/android-toolchain-r16b/bin/
 export  JAVA_HOME=/usr/java/jdk1.6.0_45
 export  CLASSPATH=.:$JAVA_HOME/jre/lib/rt.jar:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
-export  PATH=$PATH:$JAVA_HOME/bin
+export  PATH=$PATH:$JAVA_HOME/bin:/home/glenn/01-x2/02-hsp_sdk/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin
+export  PATH=$PATH:/home/glenn/02_mini2451/opt/FriendlyARM/toolschain/4.4.3/bin/
+#export  PATH=$PATH:/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/
+export  PATH=$PATH:/opt/gcc-ubuntu-9.3.0-2020.03-x86_64-aarch64-linux-gnu/bin/
+#export  PATH=$PATH:/home/glenn/.local/bin
+#export LINARO_GCC_ROOT=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/
+
+# activate conda env
+source activate gluon
+#source activate py27
+
+#source "/home/glenn/1-work/4-x3/01-sdk/01-app_test/ffmpeg_webassembly/emsdk/emsdk_env.sh"

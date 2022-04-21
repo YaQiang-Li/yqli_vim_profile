@@ -11,3 +11,8 @@
 	default = current
 [credential]
 	helper = store
+[http]
+	sslverify = false
+[i18n]
+	commitencoding = utf-8
+	logoutputencoding = 

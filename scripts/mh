@@ -35,3 +35,5 @@ echo "make menuconfig ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv30
 echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-hisiv300-linux/bin/arm-hisiv300-linux-uclibcgnueabi- hi3516a_full_defconfig"
 echo "make ARCH=arm hi3516a_full_defconfig"
 echo "make -j8 ARCH=arm uImage CROSS_COMPILE=arm-hisiv610-linux-"
+echo "make ARCH=arm CROSS_COMPILE=/opt/hisi-linux/x86-arm/arm-himix200-linux/bin/arm-himix200-linux- uImage -j4"
+echo "make ARCH=arm64 CROSS_COMPILE=/opt/gcc-linaro-6.5.0-2018.12-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-"
